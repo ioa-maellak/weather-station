@@ -42,7 +42,7 @@ def printData(m):
   print u'Θόρυβος:', m['Volume'];
   print "";
 
-   urlstr = 'http://aaaa/insert.php?' \
+  urlstr = 'http://aaaa/insert.php?' \
   + 'rpiid=' + '11' \
   + '&temp=' + m['Temperature-BMP'] \
   + '&hum=' + m['Relative_Humidity'];
