@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import sys
 import json
 import time
+import urllib2
 
 def printData(m):
   print u'Ώρα:', m['Date and time'];
