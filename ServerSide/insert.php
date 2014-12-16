@@ -6,8 +6,6 @@ define('DB_PASS',getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
 define('DB_NAME',getenv('OPENSHIFT_GEAR_NAME'));
 
 if (isset($_GET["rpiid"]) && isset($_GET["temp"]) && isset($_GET["hum"])){
-	//I don't think we should upload the file including the structure of the GET requests, because of security reasons and we have to certify the RPiUnits		 //with unique rpiids' ~mbalamat
-	
 	$servername = "localhost";
 	$username = DB_USER;
 	$password = DB_PASS;
