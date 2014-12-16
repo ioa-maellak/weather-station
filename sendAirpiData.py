@@ -32,9 +32,16 @@ import json
 import time
 
 def printData(m):
-  print u'Ώρα', m['Date and time'], u'θερμοκρασία', m['Temperature-BMP'], u' Υγρασία:', m['Relative_Humidity'];
-
-
+  print u'Ώρα:', m['Date and time'];
+  print u'Θερμοκρασία (BMP):', m['Temperature-BMP'];
+  print u'Πίεση:', m['Pressure'];
+  print u'Υγρασία:', m['Relative_Humidity'];
+  print u'Θερμοκρασία (DHT):', m['Temperature-DHT'];
+  print u'Επίπεδο Φωτός:', m['Light_Level'];
+  print u'Μονοξείδιο του Άνθρακα:', m['Carbon_Monoxide'];
+  print u'Θόρυβος:', m['Volume'];
+  print "";
+  
 #Get the name of the file with the json output.
 def main(fileName):
   #Open the file and read every line.
