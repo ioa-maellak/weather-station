@@ -41,6 +41,13 @@ def printData(m):
   print u'Μονοξείδιο του Άνθρακα:', m['Carbon_Monoxide'];
   print u'Θόρυβος:', m['Volume'];
   print "";
+
+   urlstr = 'http://aaaa/insert.php?' \
+  + 'rpiid=' + '11' \
+  + '&temp=' + m['Temperature-BMP'] \
+  + '&hum=' + m['Relative_Humidity'];
+  urllib2.urlopen(urlstr).read();
+
   
 #Get the name of the file with the json output.
 def main(fileName):
