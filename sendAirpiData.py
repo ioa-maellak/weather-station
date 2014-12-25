@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ### Can combined with the airpi program provided by
 ### https://github.com/haydnw/AirPi
-###It reads the output json file, prints the lines
+### It reads the output json file, prints the lines
 ### and send to a server.
 
 import sys
@@ -32,21 +32,23 @@ import json
 import time
 import urllib2
 
-def printData(m):
-  print u'Ώρα:', m['Date and time'];
-  print u'Θερμοκρασία (BMP):', m['Temperature-BMP'];
-  print u'Πίεση:', m['Pressure'];
-  print u'Υγρασία:', m['Relative_Humidity'];
-  print u'Θερμοκρασία (DHT):', m['Temperature-DHT'];
-  print u'Επίπεδο Φωτός:', m['Light_Level'];
-  print u'Μονοξείδιο του Άνθρακα:', m['Carbon_Monoxide'];
-  print u'Θόρυβος:', m['Volume'];
+def printData(dataDict):
+  print u'Ώρα:', dataDict['Date and time'];
+  print u'Θερμοκρασία (BMP):', dataDict['Temperature-BMP'];
+  print u'Πίεση:', dataDict['Pressure'];
+  print u'Υγρασία:', dataDict['Relative_Humidity'];
+  print u'Θερμοκρασία (DHT):', dataDict['Temperature-DHT'];
+  print u'Επίπεδο Φωτός:', dataDict['Light_Level'];
+  print u'Μονοξείδιο του Άνθρακα:', dataDict['Carbon_Monoxide'];
+  print u'Θόρυβος:', dataDict['Volume'];
   print "";
 
+
+def sendData(dataDict):
   urlstr = 'http://aaaa/insert.php?' \
   + 'rpiid=' + '11' \
-  + '&temp=' + m['Temperature-BMP'] \
-  + '&hum=' + m['Relative_Humidity'];
+  + '&temp=' + dataDict['Temperature-BMP'] \
+  + '&hum=' + dataDict['Relative_Humidity'];
   urllib2.urlopen(urlstr).read();
 
   
@@ -54,30 +56,26 @@ def printData(m):
 def main(fileName):
   #Open the file and read every line.
   file = open(fileName, 'r');
-  #Print the existing lines.
   for line in file:
-    #print line;
-    m = json.loads(line);
-    #print(m);
-    printData(m);
+    jl = json.loads(line);
+    printData(jl);
+    sendData(jl);
   #Sleep and try to read more lines.
   while True:
     line = file.readline();
     if not line:
       time.sleep(0.5);
       continue;
-    m = json.loads(line);
-    printData(m);
-    
+    jl = json.loads(line);
+    printData(jl);
+    sendData(jl);
   file.close();
 
+
 if __name__ == "__main__":
-  #Exit if less or more arguments are given.
+  # Print usage and exit if less or more than two arguments are given.
   if len(sys.argv) != 2:
     print 'Usage: ', sys.argv[0], '<file_with_json>';
     sys.exit(1);
 
-  #print 'Number of arguments:', len(sys.argv), 'arguments.' print 
-  #'Argument List:', str(sys.argv)
-  print sys.getdefaultencoding()
   main(sys.argv[1])
