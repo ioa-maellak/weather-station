@@ -42,13 +42,16 @@ def printData(dataDict):
   print u'Μονοξείδιο του Άνθρακα:', dataDict['Carbon_Monoxide'];
   print u'Θόρυβος:', dataDict['Volume'];
   print "";
-
+  
 
 def sendData(dataDict):
-  urlstr = 'http://aaaa/insert.php?' \
-  + 'rpiid=' + '11' \
+  rpiid = sys.argv[2];
+
+  urlstr = 'http://weatherstation-mbalamat.rhcloud.com/insert.php?' \
+  + 'rpiid=' + rpiid \
   + '&temp=' + dataDict['Temperature-BMP'] \
   + '&hum=' + dataDict['Relative_Humidity'];
+  
   urllib2.urlopen(urlstr).read();
 
   
@@ -73,9 +76,9 @@ def main(fileName):
 
 
 if __name__ == "__main__":
-  # Print usage and exit if less or more than two arguments are given.
-  if len(sys.argv) != 2:
-    print 'Usage: ', sys.argv[0], '<file_with_json>';
+  # Print usage and exit if less or more than three arguments are given.
+  if len(sys.argv) != 3:
+    print 'Usage: ', sys.argv[0], '<file_with_json>', '<AirPi ID>';
     sys.exit(1);
 
   main(sys.argv[1])
