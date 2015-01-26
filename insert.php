@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 include_once 'config.php';
 
-try {
+try {
 //Connect to database.
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -33,20 +33,13 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 	$pass=$_GET["pass"];
 	$when=$_GET["when"];
 	
-	echo "$id, $pass, $when <br>";
 	foreach($_GET as $key => $value){
-		echo ">>>>$key, $value <br>";
 		if($key<>"id" && $key<>"pass" && $key<>"when") {
-			echo "$key, $value <br>";
-			$stmt = $dbh->prepare("INSERT INTO metrics (id, when, key, value) VALUES (:id, :when, :key, :value)");
+			$stmt = $dbh->prepare("INSERT INTO `metrics` (`id`, `when`, `key`, `value`) VALUES (:id, :when, :key, :value)");
 			$stmt->bindParam(':id', $id);
 			$stmt->bindParam(':when', $when);
 			$stmt->bindParam(':key', $key);
 			$stmt->bindParam(':value', $value);
-			if (!$stmt) {
-				echo "PD::errorInfo() <br>";
-				print_r($dbh->errorInfo());
-			}
 			$stmt->execute();
 		}
 	}
@@ -56,7 +49,7 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 
 //Close connection.
 $dbh = null;
-} catch (PDOException $e) {
-    echo 'Connection failed: ' . $e->getMessage();
+} catch (PDOException $e) {
+	echo 'Error sql: ' . $r->getMessage();
 }
 ?>
