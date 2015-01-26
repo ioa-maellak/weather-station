@@ -21,8 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 include_once 'config.php';
 
+try {
 //Connect to database.
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
+$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Check if user and password are correct.
 
@@ -41,8 +43,8 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 			$stmt->bindParam(':when', $when);
 			$stmt->bindParam(':key', $key);
 			$stmt->bindParam(':value', $value);
-			if (!$stmt) {
-    				echo "PDO::errorInfo():<br>";
+			if (!$stmt) {
+				echo "PD::errorInfo() <br>";
 				print_r($dbh->errorInfo());
 			}
 			$stmt->execute();
@@ -54,4 +56,7 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 
 //Close connection.
 $dbh = null;
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+}
 ?>
