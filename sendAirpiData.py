@@ -7,6 +7,7 @@ Michalis Tsiolkas
 Lucian Nikolaos Xaxiris
 Marios Balamatsias
 Vasileios Karavasilis
+Gerasimos Chamalis
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,11 +48,15 @@ def printData(dataDict):
 def sendData(dataDict):
   rpiid = sys.argv[2];
 
-  urlstr = 'http://weatherstation-mbalamat.rhcloud.com/insert.php?' \
-  + 'rpiid=' + rpiid \
-  + '&temp=' + dataDict['Temperature-BMP'] \
-  + '&hum=' + dataDict['Relative_Humidity'];
+  urlstr = 'http://met-ioamaellak.rhcloud.com/insert.php?' \
+  + 'id=' + '1234' \
+  + '&pass=' + '4321' \
+  + '&when=' + dataDict['Date and time'].replace (" ", "T") \
+  + '&temperature=' + dataDict['Temperature-BMP'] \
+  + '&humidity=' + dataDict['Relative_Humidity'];
   
+  print urlstr;
+
   urllib2.urlopen(urlstr).read();
 
   
