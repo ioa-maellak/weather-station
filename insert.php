@@ -24,7 +24,7 @@ include_once 'config.php';
 try {
 //Connect to database.
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Check if user and password are correct.
 
@@ -50,6 +50,6 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 //Close connection.
 $dbh = null;
 } catch (PDOException $e) {
-	echo 'Error sql: ' . $r->getMessage();
+	echo 'Error sql: ' . $e->getMessage();
 }
 ?>
