@@ -27,19 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
   <link rel="stylesheet" type="text/css" href="mystyle.css">
 </head>
+
 <body>
 
-<section class='container'>
-          <hgroup>
-            <h1>Weather Station Project using Raspberry piS for Greek FOSS Unit of exelence</h1>
-          </hgroup>
-
-
-        <div class="row">
-          <section class='col-xs-12 col-sm-6 col-md-6'>
+<h1>Weather Station Project using Raspberry piS for Greek FOSS Unit of exelence</h1>
 
 <?php
-
 include_once 'config.php';
 
 //Connect to database.
