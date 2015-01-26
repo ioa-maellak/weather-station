@@ -1,8 +1,11 @@
-
 <?php
 /*
 Authors:
 Marios Balamatsias
+Gerasimos Chamalis
+Loykianos-Nikolaos Xaxiris
+Anastasios Lisgaras
+Vasileios Karavasilis
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,8 +25,9 @@ define('DB_PORT',getenv('OPENSHIFT_MYSQL_DB_PORT'));
 define('DB_USER',getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
 define('DB_PASS',getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
 define('DB_NAME',getenv('OPENSHIFT_GEAR_NAME'));
-$servername = "localhost";
+$port = DB_PORT;
+$servername = DB_HOST;
 $username = DB_USER;
 $password = DB_PASS;
-$dbname = weatherstation;
+$dbname = DB_NAME;
 ?>
