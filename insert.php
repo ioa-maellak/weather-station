@@ -30,9 +30,12 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 	$id=$_GET["id"];
 	$pass=$_GET["pass"];
 	$when=$_GET["when"];
-
+	
+	echo "$id, $pass, $wnen <br>";
 	foreach($_GET as $key => $value){
+		echo ">>>>$key, $value <br>";
 		if($key<>"id" && $key<>"pass" && $key<>"when") {
+			echo "$key, $value <br>";
 			$stmt = $dbh->prepare("INSERT INTO metrics (id, when, key, value) VALUES (:id, :when, :key, :value)");
 			$stmt->bindParam(':id', $id);
 			$stmt->bindParam(':when', $when);
@@ -41,6 +44,8 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 			$stmt->execute();
 		}
 	}
+} else {
+	echo "Error in id of pass <br>";
 }
 
 //Close connection.
