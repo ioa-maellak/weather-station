@@ -31,7 +31,7 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 	$pass=$_GET["pass"];
 	$when=$_GET["when"];
 	
-	echo "$id, $pass, $wnen <br>";
+	echo "$id, $pass, $when <br>";
 	foreach($_GET as $key => $value){
 		echo ">>>>$key, $value <br>";
 		if($key<>"id" && $key<>"pass" && $key<>"when") {
@@ -41,6 +41,10 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 			$stmt->bindParam(':when', $when);
 			$stmt->bindParam(':key', $key);
 			$stmt->bindParam(':value', $value);
+			if (!$stmt) {
+    				echo "PDO::errorInfo():<br>";
+				print_r($dbh->errorInfo());
+			}
 			$stmt->execute();
 		}
 	}
