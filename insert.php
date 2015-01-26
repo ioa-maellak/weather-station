@@ -2,6 +2,10 @@
 /*
 Authors:
 Marios Balamatsias
+Gerasimos Chamalis
+Loykianos-Nikolaos Xaxiris
+Anastasios Lisgaras
+Vasileios Karavasilis
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,30 +21,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 include_once 'config.php';
 
-if (isset($_GET["rpiid"]) && isset($_GET["temp"]) && isset($_GET["hum"])){
+//Connect to database.
+$dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
-	$rpiid=$_GET["rpiid"];
-	$temp=$_GET["temp"];
-	$hum=$_GET["hum"];
+//Check if user and password are correct.
 
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	// Check connection
-	if ($conn->connect_error) {
-    		die("Connection failed: " . $conn->connect_error);
-	} 
+if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
+	$id=$_GET["id"];
+	$pass=$_GET["pass"];
+	$when=$_GET["when"];
 
-
-	$sql = "INSERT INTO  weatherstationDB (raspberrypi_id, temperature, humidity)
-        VALUES ($rpiid, $temp, $hum)";
-	
-
-	if ($conn->query($sql) === TRUE) {
-    		//echo "New record created successfully";
-	} else {
-    		echo "Error: " . $sql . "<br>" . $conn->error;
+	foreach($_GET as $key => $value){
+		if($key<>"id" && $key<>"pass" && $key<>"when") {
+			$stmt = $dbh->prepare("INSERT INTO metrics (id, when, key, value) VALUES (:id, :when, :key, :value)");
+			$stmt->bindParam(':id', $id);
+			$stmt->bindParam(':when', $when);
+			$stmt->bindParam(':key', $key);
+			$stmt->bindParam(':value', $value);
+			$stmt->execute();
+		}
 	}
-
-	$conn->close();
 }
+
+//Close connection.
+$dbh = null;
 ?>
