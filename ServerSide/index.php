@@ -1,3 +1,23 @@
+<!--
+Authors:
+Marios Balamatsias
+Gerasimos Chamalis
+Loykianos-Nikolaos Xaxiris
+Anastasios Lisgaras
+Vasileios Karavasilis
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,7 +26,6 @@
   <title>RPi Weather Station Database</title>
 
   <link rel="stylesheet" type="text/css" href="mystyle.css">
-
 </head>
 <body>
 
@@ -21,46 +40,29 @@
 
 <?php
 
-/*
-Authors:
-Marios Balamatsias
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 include_once 'config.php';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+//Connect to database.
+$dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
-$sql = "SELECT raspberrypi_id, temperature, humidity FROM weatherstationDB";
-$result = $conn->query($sql);
+//Send the query.
+$sql = "SELECT * FROM metrics";
+$statement=$dbh->prepare($sql);
+$statement->execute();
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "RPid: " . $row["raspberrypi_id"]. "\nTemperature: " . $row["temperature"]. "\nHumidity: " . $row["humidity"]. "<br>";
-    }
-} else {
-    echo "0 results";
+//Get and display the results.
+while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+	$id = $row['id'];
+	$when = $row['when'];
+	$key = $row['key'];
+	$value = $row['value'];
+
+	echo "$id, $when, $key, $value <br>";
 }
-$conn->close();
+
+//Close connection.
+$dbh = null;
 ?>
-
-
 
 </body>
 </html>
