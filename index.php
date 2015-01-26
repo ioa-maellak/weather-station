@@ -51,7 +51,7 @@ $statement=$dbh->prepare($sql);
 $statement->execute();
 
 //Get and display the results.
-while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 	$id = $row['id'];
 	$when = $row['when'];
 	$key = $row['key'];
