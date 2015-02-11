@@ -8,6 +8,8 @@ Lucian Nikolaos Xaxiris
 Marios Balamatsias
 Vasileios Karavasilis
 Gerasimos Chamalis
+Savvopoylos Petros
+Krommydas Konstantinos
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,12 +47,12 @@ def printData(dataDict):
   print "";
   
 
-def sendData(dataDict):
+def sendData(dataDict, rasId, rasPass):
   rpiid = sys.argv[2];
 
   urlstr = 'http://met-ioamaellak.rhcloud.com/insert.php?' \
-  + 'id=' + '1234' \
-  + '&pass=' + '4321' \
+  + 'id=' + rasId \
+  + '&pass=' + rasPass \
   + '&when=' + dataDict['Date and time'].replace (" ", "T") \
   + '&temperature=' + dataDict['Temperature-BMP'] \
   + '&humidity=' + dataDict['Relative_Humidity'];
@@ -61,13 +63,13 @@ def sendData(dataDict):
 
   
 #Get the name of the file with the json output.
-def main(fileName):
+def main(fileName, rasId, rasPass):
   #Open the file and read every line.
   file = open(fileName, 'r');
   for line in file:
     jl = json.loads(line);
     printData(jl);
-    sendData(jl);
+    sendData(jl, rasId, rasPass);
   #Sleep and try to read more lines.
   while True:
     line = file.readline();
@@ -76,14 +78,14 @@ def main(fileName):
       continue;
     jl = json.loads(line);
     printData(jl);
-    sendData(jl);
+    sendData(jl, rasId, rasPass);
   file.close();
 
 
 if __name__ == "__main__":
-  # Print usage and exit if less or more than three arguments are given.
-  if len(sys.argv) != 3:
-    print 'Usage: ', sys.argv[0], '<file_with_json>', '<AirPi ID>';
+  # Print usage and exit if less or more than 4 arguments are given.
+  if len(sys.argv) != 4:
+    print 'Usage: ', sys.argv[0], '<file_with_json>', '<AirPi ID>', '<Pass>';
     sys.exit(1);
 
-  main(sys.argv[1])
+  main(sys.argv[1], sys.argv[2], sys.argv[3])
