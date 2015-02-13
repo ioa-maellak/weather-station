@@ -32,16 +32,27 @@ if (isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["when"])){
 	$id=$_GET["id"];
 	$pass=$_GET["pass"];
 	$when=$_GET["when"];
+
+	//Check the id and pass on the database.
+	$stmt = $dbh->prepare("SELECT * FROM `users` WHERE id=:id AND pass=:pass");
+	$stmt->bindParam(':id', $id);
+	$stmt->bindParam(':pass', $pass);
+	$stmt->execute();
 	
-	foreach($_GET as $key => $value){
-		if($key<>"id" && $key<>"pass" && $key<>"when") {
-			$stmt = $dbh->prepare("INSERT INTO `metrics` (`id`, `when`, `key`, `value`) VALUES (:id, :when, :key, :value)");
-			$stmt->bindParam(':id', $id);
-			$stmt->bindParam(':when', $when);
-			$stmt->bindParam(':key', $key);
-			$stmt->bindParam(':value', $value);
-			$stmt->execute();
+	//Check if it has fetch at least one row.
+        if($stmt->fetch()) {
+		foreach($_GET as $key => $value){
+			if($key<>"id" && $key<>"pass" && $key<>"when") {
+				$stmt = $dbh->prepare("INSERT INTO `metrics` (`id`, `when`, `key`, `value`) VALUES (:id, :when, :key, :value)");
+				$stmt->bindParam(':id', $id);
+				$stmt->bindParam(':when', $when);
+				$stmt->bindParam(':key', $key);
+				$stmt->bindParam(':value', $value);
+				$stmt->execute();
+			}
 		}
+	} else {
+		echo "Wrong username or pass <br>";
 	}
 } else {
 	echo "Error in id of pass <br>";
