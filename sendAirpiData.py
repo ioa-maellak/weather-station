@@ -36,15 +36,26 @@ import time
 import urllib2
 
 def printData(dataDict):
-  print u'Ώρα:', dataDict['Date and time'];
-  print u'Θερμοκρασία (BMP):', dataDict['Temperature-BMP'];
-  print u'Πίεση:', dataDict['Pressure'];
-  print u'Υγρασία:', dataDict['Relative_Humidity'];
-  print u'Θερμοκρασία (DHT):', dataDict['Temperature-DHT'];
-  print u'Επίπεδο Φωτός:', dataDict['Light_Level'];
-  print u'Μονοξείδιο του Άνθρακα:', dataDict['Carbon_Monoxide'];
-  print u'Θόρυβος:', dataDict['Volume'];
-  print "";
+  a = u'Ώρα:', dataDict['Date and time'];
+  print ''.join(a).encode('utf-8');
+  a = u'Ώρα:', dataDict['Date and time'];
+  print ''.join(a).encode('utf-8');
+  a = u'Θερμοκρασία (BMP):', dataDict['Temperature-BMP'];
+  print ''.join(a).encode('utf-8');
+  a = u'Πίεση:', dataDict['Pressure'];
+  print ''.join(a).encode('utf-8');
+  a = u'Υγρασία:', dataDict['Relative_Humidity'];
+  print ''.join(a).encode('utf-8');
+  a = u'Θερμοκρασία (DHT):', dataDict['Temperature-DHT'];
+  print ''.join(a).encode('utf-8');
+  a = u'Επίπεδο Φωτός:', dataDict['Light_Level'];
+  print ''.join(a).encode('utf-8');
+  a = u'Μονοξείδιο του Άνθρακα:', dataDict['Carbon_Monoxide'];
+  print ''.join(a).encode('utf-8');
+  a = u'Θόρυβος:', dataDict['Volume'];
+  print ''.join(a).encode('utf-8');
+  a = "";
+  print ''.join(a).encode('utf-8');
   
 
 def sendData(dataDict, rasId, rasPass):

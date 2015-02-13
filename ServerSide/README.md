@@ -21,3 +21,5 @@ CREATE TABLE IF NOT EXISTS `metrics` (
 
 link: http://met-ioamaellak.rhcloud.com/
 
+Io order to start the server, run:
+export PIID=???; export PIPASS=??? ; ./startAirPiAndSender.sh
