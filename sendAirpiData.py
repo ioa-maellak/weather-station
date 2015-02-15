@@ -25,8 +25,6 @@ import urllib2
 def printData(dataDict):
   a = u'Ώρα:', dataDict['Date and time'];
   print ''.join(a).encode('utf-8');
-  a = u'Ώρα:', dataDict['Date and time'];
-  print ''.join(a).encode('utf-8');
   a = u'Θερμοκρασία (BMP):', dataDict['Temperature-BMP'];
   print ''.join(a).encode('utf-8');
   a = u'Πίεση:', dataDict['Pressure'];
