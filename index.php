@@ -26,23 +26,22 @@ include_once 'config.php';
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
 //Send the query.
-$sql = "SELECT `id`, `when`, GROUP_CONCAT(CONCAT(`key`, ':', `value`) SEPARATOR ',') FROM `metrics` GROUP BY `id`, `when` ORDER BY `when` desc;";
+$sql = "SELECT `id`, `when`, GROUP_CONCAT(CONCAT(`key`, ':', `value`) SEPARATOR ',') as val FROM `metrics` GROUP BY `id`, `when` ORDER BY `when` desc;";
 $statement=$dbh->prepare($sql);
 $statement->execute();
 
-echo "<TABLE>";
+echo "<TABLE border='1'>";
 //Get and display the results.
 while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 	$id = $row['id'];
 	$when = $row['when'];
-	$key = $row['key'];
-	$value = $row['value'];
+	$val = $row['val'];
 
 	echo "<TR>";
 	//echo "$id, $when, $key, $value <br>";
 	echo "<TD>$id</TD>";
 	echo "<TD>$when</TD>";
-	echo "<TD>$key $value</TD>";
+	echo "<TD>$val</TD>";
 	echo "</TR>";
 }
 echo "</TABLE>";
