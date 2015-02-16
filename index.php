@@ -26,7 +26,7 @@ include_once 'config.php';
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
 //Send the query.
-$sql = "SELECT * FROM metrics ORDER BY `when` desc";
+$sql = "SELECT `id`, `when`, GROUP_CONCAT(CONCAT(`key`, ':', `value`) SEPARATOR ',') FROM `metrics` GROUP BY `id`, `when` ORDER BY `when` desc;";
 $statement=$dbh->prepare($sql);
 $statement->execute();
 
