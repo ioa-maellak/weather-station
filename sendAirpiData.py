@@ -58,8 +58,10 @@ def sendData(dataDict, rasId, rasPass):
   
   print urlstr;
 
-  urllib2.urlopen(urlstr).read();
-
+  try:
+    urllib2.urlopen(urlstr).read();
+  except: 
+    pass
   
 #Get the name of the file with the json output.
 def main(fileName, rasId, rasPass):
