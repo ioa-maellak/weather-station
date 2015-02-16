@@ -19,8 +19,6 @@ Vasileios Karavasilis
 
 <body>
 
-<h1>Weather Station Project using Raspberry piS for Greek FOSS Unit of exelence</h1>
-
 <?php
 include_once 'config.php';
 
@@ -28,19 +26,25 @@ include_once 'config.php';
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
 //Send the query.
-$sql = "SELECT * FROM metrics ORDER BY `when` desc";
+$sql = "SELECT `id`, `when`, GROUP_CONCAT(CONCAT(`key`, ':', `value`) ORDER BY `key` SEPARATOR ',') as val FROM `metrics` GROUP BY `id`, `when` ORDER BY `when` desc;";
 $statement=$dbh->prepare($sql);
 $statement->execute();
 
+echo "<TABLE border='1'>";
 //Get and display the results.
 while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 	$id = $row['id'];
 	$when = $row['when'];
-	$key = $row['key'];
-	$value = $row['value'];
+	$val = $row['val'];
 
-	echo "$id, $when, $key, $value <br>";
+	echo "<TR>";
+	//echo "$id, $when, $key, $value <br>";
+	echo "<TD>$id</TD>";
+	echo "<TD>$when</TD>";
+	echo "<TD>$val</TD>";
+	echo "</TR>";
 }
+echo "</TABLE>";
 
 //Close connection.
 $dbh = null;
