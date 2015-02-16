@@ -19,8 +19,6 @@ Vasileios Karavasilis
 
 <body>
 
-<h1>Weather Station Project using Raspberry piS for Greek FOSS Unit of exelence</h1>
-
 <?php
 include_once 'config.php';
 
@@ -32,6 +30,7 @@ $sql = "SELECT * FROM metrics ORDER BY `when` desc";
 $statement=$dbh->prepare($sql);
 $statement->execute();
 
+echo "<TABLE>";
 //Get and display the results.
 while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 	$id = $row['id'];
@@ -39,8 +38,14 @@ while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 	$key = $row['key'];
 	$value = $row['value'];
 
-	echo "$id, $when, $key, $value <br>";
+	echo "<TR>";
+	//echo "$id, $when, $key, $value <br>";
+	echo "<TD>$id</TD>";
+	echo "<TD>$when</TD>";
+	echo "<TD>$key $value</TD>";
+	echo "</TR>";
 }
+echo "</TABLE>";
 
 //Close connection.
 $dbh = null;
