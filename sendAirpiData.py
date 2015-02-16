@@ -44,14 +44,17 @@ def printData(dataDict):
   
 
 def sendData(dataDict, rasId, rasPass):
-  rpiid = sys.argv[2];
+  # rpiid = sys.argv[2];
 
-  urlstr = 'http://met-ioamaellak.rhcloud.com/insert.php?' \
-  + 'id=' + rasId \
-  + '&pass=' + rasPass \
-  + '&when=' + dataDict['Date and time'].replace (" ", "T") \
-  + '&temperature=' + dataDict['Temperature-BMP'] \
-  + '&humidity=' + dataDict['Relative_Humidity'];
+  urlstr = 'http://met-ioamaellak.rhcloud.com/insert.php?id=' + rasId + \
+           '&pass=' + rasPass + '&when=' + \
+            dataDict['Date and time'].replace (" ", "T") + '&temp-bmp=' + \
+            dataDict['Temperature-BMP'] + '&pressure=' + \
+            dataDict['Pressure'] +'&humidity=' + \
+            dataDict['Relative_Humidity'] +'&temp-dht=' + \
+            dataDict['Temperature-DHT'] + '&light=' + \
+            dataDict['Light_Level'] +'&CO=' + dataDict['Carbon_Monoxide'] + \
+            '&volume=' + dataDict['Volume'];
   
   print urlstr;
 
