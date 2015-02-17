@@ -189,4 +189,13 @@ line-height: 1.4;
   font-family: Menlo,Monaco,"Liberation Mono",Consolas,monospace !important;
 }
 
+td {
+    padding: 0 15px 0 15px;
+}
+
+th {
+    text-align: left;
+    padding: 0 15px 0 15px;
+}
+
 </style>
