@@ -31,13 +31,20 @@ include_once 'config.php';
 
 //Connect to database.
 $dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
+/* //Send the query.
+   $sql = ("SELECT `when`, GROUP_CONCAT(`value` SEPARATOR ' ') " .
+   "as val FROM `metrics`" .
+   "GROUP BY `id`, `when` ORDER BY `when` desc;"); */
 
-//Send the query.
-$sql = "SELECT `when`, GROUP_CONCAT(`value` SEPARATOR '<td>') as val " . 
-       "FROM `metrics` GROUP BY `id`, `when` ORDER BY `when` desc;";
+$sql = "SELECT * FROM metrics ORDER BY `when` DESC, `key` ASC;";
 
 $statement=$dbh->prepare($sql);
 $statement->execute();
+
+$sql = "SELECT unit FROM units;";
+
+$units = $dbh->prepare ($sql);
+$units->execute ();
 
 echo "<TABLE class=simpletable>" .
      "<thead>" .
@@ -55,19 +62,26 @@ echo "<TABLE class=simpletable>" .
      "<tbody>" ;
 
 //Get and display the results.
+
+$id = 'etepi';
+
 while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-    $id = 'etepi';
     $when = $row['when'];
-    $val = $row['val'];
+    $val = $row['value'];
 
-
-    echo "<TR>";
-    //echo "$id, $when, $key, $value <br>";
-    echo "<TD>$id</TD>";
-    echo "<TD>$when</TD>";
-    echo "<TD>$val<TD>";
-    echo "</TR>";
+    $unit_row = $units->fetch (PDO::FETCH_ASSOC);
+    $unit = $unit_row['unit'];
+    
+    if ($when != $prev_when) {
+        echo "<TR>";
+        echo "<TD>$id</TD>";
+        echo "<TD>$when</TD>";
+        $prev_when = $when;
+    }
+    
+    echo "<TD>$val $unit</TD>";
 }
+
 echo "</tbody>";
 echo "</TABLE>";
 
