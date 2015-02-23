@@ -20,10 +20,10 @@ Tsiolkas Michalis
 
     <body>
 	<h2>
-            a low cost weather station with AirPi -- check the code at
-            <a href="https://github.com/ioa-maellak/weather-station"> github
-            </a>
-        </h2>
+	    a low cost weather station with AirPi -- check the code at
+	    <a href="https://github.com/ioa-maellak/weather-station"> github
+	    </a>
+	</h2>
 	<br>
 
 <?php
@@ -46,21 +46,23 @@ $sql = "SELECT unit FROM units;";
 $units = $dbh->prepare ($sql);
 $units->execute ();
 
-echo "<TABLE class=simpletable>" .
-     "<thead>" .
-     "<TR>" . 
-     "<th> Station </th>" .
-     "<th> Time </TH>" . 
-     "<TH> Carbon Monoxide </TH>" .
-     "<TH> Humidity </TH>" . 
-     "<TH> Light Level </TH>" . 
-     "<TH> Pressure </TH>" . 
-     "<TH colspan = 2> Temperature </TH>" .
-     "<TH> Noise </TH>" .
-     "</TR>" .
-     "</thead>" .
-     "<tbody>" ;
+?>
+	<table class=simpletable>
+	    <thead> 
+		<tr> 
+		    <th> Station </th>
+		    <th> Time </th>
+		    <th> Carbon Monoxide </th>
+		    <th> Humidity </th> 
+		    <th> Light Level </th>
+		    <th> Pressure </th>
+		    <th colspan = 2> Temperature </th>
+		    <th> Noise </th>
+		</tr>
+	    </thead>
+	    <tbody>
 
+<?php
 //Get and display the results.
 
 $id = 'etepi';
@@ -73,21 +75,21 @@ while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
     $unit = $unit_row['unit'];
     
     if ($when != $prev_when) {
-        echo "<TR>";
-        echo "<TD>$id</TD>";
-        echo "<TD>$when</TD>";
+        echo "<tr>";
+        echo "<td>$id</td>";
+        echo "<td>$when</td>";
         $prev_when = $when;
     }
     
-    echo "<TD>$val $unit</TD>";
+    echo "<td>$val $unit</td>";
 }
-
-echo "</tbody>";
-echo "</TABLE>";
 
 //Close connection.
 $dbh = null;
+
 ?>
 
-</body>
+	    </tbody>
+	</table>
+    </body>
 </html>
