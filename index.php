@@ -1,12 +1,12 @@
 <!--
-Authors:
-Marios Balamatsias
-Gerasimos Chamalis
-Loykianos-Nikolaos Xaxiris
-Anastasios Lisgaras
-Vasileios Karavasilis
-Tsiolkas Michalis
--->
+	  Authors:
+	  Marios Balamatsias
+	  Gerasimos Chamalis
+	  Loykianos-Nikolaos Xaxiris
+	  Anastasios Lisgaras
+	  Vasileios Karavasilis
+	  Tsiolkas Michalis
+	  -->
 
 <!doctype html>
 <html lang="en">
@@ -20,74 +20,100 @@ Tsiolkas Michalis
 
     <body>
 	<h2>
-            a low cost weather station with AirPi -- check the code at
-            <a href="https://github.com/ioa-maellak/weather-station"> github
-            </a>
-        </h2>
+	    a low cost weather station with AirPi -- check the code at
+	    <a href="https://github.com/ioa-maellak/weather-station"> github
+	    </a>
+	</h2>
 	<br>
 
-<?php
-include_once 'config.php';
+	<?php
+	include_once 'config.php';
 
-//Connect to database.
-$dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
-/* //Send the query.
-   $sql = ("SELECT `when`, GROUP_CONCAT(`value` SEPARATOR ' ') " .
-   "as val FROM `metrics`" .
-   "GROUP BY `id`, `when` ORDER BY `when` desc;"); */
 
-$sql = "SELECT * FROM metrics ORDER BY `when` DESC, `key` ASC;";
+	//Connect to database.
+	$dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
-$statement=$dbh->prepare($sql);
-$statement->execute();
+	/* //Send the query.
+	   $sql = ("SELECT `when`, GROUP_CONCAT(`value` SEPARATOR ' ') " .
+	   "as val FROM `metrics`" .
+	   "GROUP BY `id`, `when` ORDER BY `when` desc;"); */
 
-$sql = "SELECT unit FROM units;";
+	$sql = "SELECT count(*) as val_num FROM units";
+	$val_num = $dbh->prepare ($sql);
+	$val_num->execute ();
 
-$units = $dbh->prepare ($sql);
-$units->execute ();
+	$res = $val_num->fetch (PDO::FETCH_ASSOC);
+	$val_num = $res['val_num'];
 
-echo "<TABLE class=simpletable>" .
-     "<thead>" .
-     "<TR>" . 
-     "<th> Station </th>" .
-     "<th> Time </TH>" . 
-     "<TH> Carbon Monoxide </TH>" .
-     "<TH> Humidity </TH>" . 
-     "<TH> Light Level </TH>" . 
-     "<TH> Pressure </TH>" . 
-     "<TH colspan = 2> Temperature </TH>" .
-     "<TH> Noise </TH>" .
-     "</TR>" .
-     "</thead>" .
-     "<tbody>" ;
+	if (! $_GET['lim']) {
+	    $lim = 7;
+	} else {
+	    $lim = $_GET['lim'];
+	}
 
-//Get and display the results.
 
-$id = 'etepi';
+	$sql = "SELECT * FROM metrics ORDER BY `when` DESC, `key` ASC LIMIT $lim;";
 
-while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-    $when = $row['when'];
-    $val = $row['value'];
 
-    $unit_row = $units->fetch (PDO::FETCH_ASSOC);
-    $unit = $unit_row['unit'];
-    
-    if ($when != $prev_when) {
-        echo "<TR>";
-        echo "<TD>$id</TD>";
-        echo "<TD>$when</TD>";
-        $prev_when = $when;
-    }
-    
-    echo "<TD>$val $unit</TD>";
-}
+	$statement=$dbh->prepare($sql);
+	$statement->execute();
 
-echo "</tbody>";
-echo "</TABLE>";
+	$sql = "SELECT unit FROM units;";
+	$units = $dbh->prepare ($sql);
+	$units->execute ();
 
-//Close connection.
-$dbh = null;
-?>
+	?>
+	<table class=simpletable>
+	    <thead> 
+		<tr> 
+		    <th> Station </th>
+		    <th> Time </th>
+		    <th> Carbon Monoxide </th>
+		    <th> Humidity </th> 
+		    <th> Light Level </th>
+		    <th> Pressure </th>
+		    <th colspan = 2> Temperature </th>
+		    <th> Noise </th>
+		</tr>
+	    </thead>
+	    <tbody>
 
-</body>
-</html>
+		<?php
+		//Get and display the results.
+
+		$id = 'etepi';
+
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+		    $when = $row['when'];
+		    $val = $row['value'];
+
+		    $unit_row = $units->fetch (PDO::FETCH_ASSOC);
+		    $unit = $unit_row['unit'];
+		    
+		    if ($when != $prev_when) {
+			echo "<tr>";
+			echo "<td>$id</td>";
+			echo "<td>$when</td>";
+			$prev_when = $when;
+		    }
+		    
+		    echo "<td>$val $unit</td>";
+		}
+
+		//Close connection.
+		$dbh = null;
+
+
+		print "</tbody>";
+		print "</table>";
+		print "<br>";
+		print "<form method=GET action='loadmore.pl'>";
+		print "<button type=submit name=lim value=$lim>";
+		print "<img src=more.png>";
+		print "</button>";
+		print "</form>";
+		
+		print "</body>";
+		print "</html>";
+
+		?>
