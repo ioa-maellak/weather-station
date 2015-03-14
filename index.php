@@ -109,7 +109,7 @@
 		print "<br>";
 		print "<form method=GET action='loadmore.pl'>";
 		print "<button type=submit name=lim value=$lim>";
-		print "<img src=more.png>";
+		print "<img src=./graphics/more.png>";
 		print "</button>";
 		print "</form>";
 		
