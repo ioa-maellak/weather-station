@@ -1,36 +1,34 @@
 <?php
 	include_once 'config.php';
+	
 	$dbh = new PDO('mysql:dbname='.$dbname.';host='.$servername.';port='.$port, $username, $password);
 
-	/* //Send the query.
-	   $sql = ("SELECT `when`, GROUP_CONCAT(`value` SEPARATOR ' ') " .
-	   "as val FROM `metrics`" .
-	   "GROUP BY `id`, `when` ORDER BY `when` desc;"); */
+	$db=mysql_connect($host, $username, $password) or die('Could not connect');
+	mysql_select_db($db_name, $db) or die('');
+	$lim = 7;
+	$result = mysql_query("SELECT * FROM metrics ORDER BY `when` DESC, `key` ASC LIMIT $lim;") or die('Could not query');
+	
+	if(mysql_num_rows($result)){
+    		echo '{"data":[';
 
-	$sql = "SELECT count(*) as val_num FROM units";
-	$val_num = $dbh->prepare ($sql);
-	$val_num->execute ();
+    		$first = true;
+    		$row=mysql_fetch_assoc($result);
+    	while($row=mysql_fetch_row($result)){
+        	//  cast results to specific data types
 
-	$res = $val_num->fetch (PDO::FETCH_ASSOC);
-	$val_num = $res['val_num'];
-
-	if (! $_GET['lim']) {
-	    $lim = 7;
+        	if($first) {
+            		$first = false;
+        	} else {
+            		echo ',';
+        	}
+        	echo json_encode($row);
+    	}	
+    		echo ']}';
 	} else {
-	    $lim = $_GET['lim'];
+    		echo '[]';
 	}
-
-
-	$sql = "SELECT * FROM metrics ORDER BY `when` DESC, `key` ASC LIMIT $lim;";
-
-
-	$statement=$dbh->prepare($sql);
-	$statement->execute();
-
-	$sql = "SELECT unit FROM units;";
-	$units = $dbh->prepare ($sql);
-	$units->execute ();
-	echo units
-		
+	
+	
+	mysql_close($db);
 
 >
