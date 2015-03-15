@@ -1,4 +1,8 @@
 <?php
+	/*
+	Authors:
+	Marios Balamatsias
+ 	*/
 	include_once 'config.php';
 	$db_name = 'met';
 	$db = 'metrics';	

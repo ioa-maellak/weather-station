@@ -4,8 +4,6 @@ use CGI;
 
 my $q = CGI->new;
 
-# print $q->header();
-
 $query_string = $ENV{'QUERY_STRING'};
 ($field_name, $value) = split (/=/, $query_string);
 

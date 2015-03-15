@@ -46,7 +46,7 @@
 	$val_num = $res['val_num'];
 
 	if (! $_GET['lim']) {
-	    $lim = 7;
+	    $lim = 105;
 	} else {
 	    $lim = $_GET['lim'];
 	}
@@ -109,7 +109,7 @@
 		print "<br>";
 		print "<form method=GET action='loadmore.pl'>";
 		print "<button type=submit name=lim value=$lim>";
-		print "<img src=./graphics/more.png>";
+		print "<img src=graphics/more.png>";
 		print "</button>";
 		print "</form>";
 		
