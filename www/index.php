@@ -46,7 +46,7 @@
 	$val_num = $res['val_num'];
 
 	if (!(isset($_GET['lim']))) {
-	    $lim = 7;
+	    $lim = 105;
 	} else {
 	    $lim = $_GET['lim'];
 	}
