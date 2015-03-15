@@ -45,8 +45,8 @@
 	$res = $val_num->fetch (PDO::FETCH_ASSOC);
 	$val_num = $res['val_num'];
 
-	if (! $_GET['lim']) {
-	    $lim = 105;
+	if (!(isset($_GET['lim']))) {
+	    $lim = 7;
 	} else {
 	    $lim = $_GET['lim'];
 	}
