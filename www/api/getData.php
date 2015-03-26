@@ -3,7 +3,7 @@
    Authors:
    Marios Balamatsias
    */
-    include_once 'config.php
+    include_once 'config.php';
 
     $db = mysql_connect($servername,$username,$password);
 
