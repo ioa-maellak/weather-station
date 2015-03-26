@@ -13,12 +13,9 @@
  
     
 mysql_select_db($dbname,$db);
-echo "Conected and Selected DB";  
 $sql = "SELECT * FROM `metrics` LIMIT 0, 30 ";    
  
 $result = mysql_query($sql, $db);  
-echo "query completed";
-echo $result;
 
 $json_response = array();
     
