@@ -4,16 +4,23 @@
    Marios Balamatsias
    */
     include_once 'config.php
+
     $db = mysql_connect($servername,$username,$password);
+
     if (!$db) {
         die('Could not connect to db: ' . mysql_error());
-    }
+   }
  
-    mysql_select_db($dbname,$db);
-    $sql = "SELECT * FROM `metrics` LIMIT 0, 30 ";    
-    $result = mysql_query($sql, $db);  
     
-    $json_response = array();
+mysql_select_db($dbname,$db);
+echo "Conected and Selected DB";  
+$sql = "SELECT * FROM `metrics` LIMIT 0, 30 ";    
+ 
+$result = mysql_query($sql, $db);  
+echo "query completed";
+echo $result;
+
+$json_response = array();
     
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
         $row_array['id'] = $row['id'];
